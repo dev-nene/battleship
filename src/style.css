@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+}
+
+.player1,
+.player2 {
+  width: 600px;
+  height: 600px;
+  background-color: #333;
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  grid-template-rows: repeat(10, 50px);
+  gap: 2px;
+  justify-content: center;
+  align-content: center;
+}
+
+.player1 div,
+.player2 div {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+div.ship {
+  background-color: lightgray;
+}
+
+div.miss {
+  background-color: lightcoral;
+}
+
+div.hit {
+  background-color: gray;
+}
