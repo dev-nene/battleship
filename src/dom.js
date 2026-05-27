@@ -1,4 +1,5 @@
 function renderBoard(gameboard, container, showShips = true) {
+  container.innerHTML = "";
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
       const divEl = document.createElement("div");
@@ -29,4 +30,14 @@ function renderBoard(gameboard, container, showShips = true) {
   }
 }
 
-export { renderBoard };
+function setupAttackListener(gameboard, container) {
+  container.addEventListener("click", (e) => {
+    const x = Number(e.target.dataset.x);
+    const y = Number(e.target.dataset.y);
+    if (Number.isNaN(x) || Number.isNaN(y)) return;
+    gameboard.receiveAttack(x, y);
+    renderBoard(gameboard, container);
+  });
+}
+
+export { renderBoard, setupAttackListener };
