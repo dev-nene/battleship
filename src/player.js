@@ -9,7 +9,7 @@ class Player {
   randomAttack(enemyBoard) {
     const x = Math.floor(Math.random() * 10);
     const y = Math.floor(Math.random() * 10);
-    enemyBoard.receiveAttack(x, y);
+    return enemyBoard.receiveAttack(x, y);
   }
 }
 

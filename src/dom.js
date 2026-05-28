@@ -30,13 +30,13 @@ function renderBoard(gameboard, container, showShips = true) {
   }
 }
 
-function setupAttackListener(gameboard, container) {
+function setupAttackListener(gameboard, container, callback) {
   container.addEventListener("click", (e) => {
     const x = Number(e.target.dataset.x);
     const y = Number(e.target.dataset.y);
     if (Number.isNaN(x) || Number.isNaN(y)) return;
-    gameboard.receiveAttack(x, y);
-    renderBoard(gameboard, container);
+
+    callback(x, y);
   });
 }
 
