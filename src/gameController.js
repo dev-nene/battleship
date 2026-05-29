@@ -2,6 +2,9 @@ import Player from "./player.js";
 import { renderBoard, setupAttackListener } from "./dom.js";
 import Ship from "./ship.js";
 
+const randomBtn = document.querySelector(".randomBtn");
+const startBtn = document.querySelector(".startBtn");
+
 let currentPlayer = "player";
 let gameOver = false;
 let playerCanShoot = true;
@@ -37,7 +40,9 @@ function computerTurn(player1, player2, player1Div, player2Div) {
 
 function playerTurn(x, y, player1, player2, player1Div, player2Div) {
   if (gameOver || !playerCanShoot) return;
-  player2.gameboard.receiveAttack(x, y);
+
+  const validMove = player2.gameboard.receiveAttack(x, y);
+  if (!validMove) return;
 
   renderBoard(player2.gameboard, player2Div, false);
 
@@ -55,30 +60,47 @@ function endGame(winner) {
   alert(msg);
 }
 
+const player1 = new Player();
+const player2 = new Player("computer");
+
+const player1Div = document.querySelector(".player1");
+const player2Div = document.querySelector(".player2");
+
 function playGame() {
   currentPlayer = "player";
   gameOver = false;
   playerCanShoot = true;
 
-  const player1 = new Player();
-  const player2 = new Player("computer");
+  startBtn.style.display = "none";
+  randomBtn.style.display = "none";
 
+  renderBoard(player1.gameboard, player1Div);
+  renderBoard(player2.gameboard, player2Div, false);
+  setupAttackListener(player2.gameboard, player2Div, (x, y) => {
+    playerTurn(x, y, player1, player2, player1Div, player2Div);
+  });
+}
+
+startBtn.addEventListener("click", () => {
+  if (player1.gameboard.ships.length === 0) {
+    alert("Place your ships first!");
+    return;
+  }
+
+  playGame();
+});
+
+randomBtn.addEventListener("click", () => {
   const fleet = [5, 4, 3, 3, 2];
+  player1.gameboard.ships = [];
+  player2.gameboard.ships = [];
 
   fleet.forEach((ship) => {
     player1.gameboard.placeRandomShip(new Ship(ship));
     player2.gameboard.placeRandomShip(new Ship(ship));
   });
 
-  const player1Div = document.querySelector(".player1");
-  const player2Div = document.querySelector(".player2");
-
   renderBoard(player1.gameboard, player1Div);
-  renderBoard(player2.gameboard, player2Div, false);
-
-  setupAttackListener(player2.gameboard, player2Div, (x, y) => {
-    playerTurn(x, y, player1, player2, player1Div, player2Div);
-  });
-}
+});
 
 export { playGame };
