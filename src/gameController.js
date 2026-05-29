@@ -8,7 +8,6 @@ let playerCanShoot = true;
 
 function switchTurn(player1, player2, player1Div, player2Div) {
   currentPlayer = currentPlayer === "player" ? "computer" : "player";
-  console.log("SWithch fired");
   if (currentPlayer === "computer") {
     playerCanShoot = false;
     setTimeout(() => {
@@ -21,7 +20,6 @@ function switchTurn(player1, player2, player1Div, player2Div) {
 
 function computerTurn(player1, player2, player1Div, player2Div) {
   if (gameOver) return;
-  console.log("computerTurn fired");
   let validMove = false;
 
   while (!validMove) {
@@ -39,10 +37,9 @@ function computerTurn(player1, player2, player1Div, player2Div) {
 
 function playerTurn(x, y, player1, player2, player1Div, player2Div) {
   if (gameOver || !playerCanShoot) return;
-  console.log("player fired");
   player2.gameboard.receiveAttack(x, y);
 
-  renderBoard(player2.gameboard, player2Div);
+  renderBoard(player2.gameboard, player2Div, false);
 
   if (player2.gameboard.allShipsSunk()) {
     endGame("player");
@@ -77,7 +74,7 @@ function playGame() {
   const player2Div = document.querySelector(".player2");
 
   renderBoard(player1.gameboard, player1Div);
-  renderBoard(player2.gameboard, player2Div);
+  renderBoard(player2.gameboard, player2Div, false);
 
   setupAttackListener(player2.gameboard, player2Div, (x, y) => {
     playerTurn(x, y, player1, player2, player1Div, player2Div);

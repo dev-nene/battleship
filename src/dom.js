@@ -21,7 +21,7 @@ function renderBoard(gameboard, container, showShips = true) {
       if (attacked && !hasShip) {
         divEl.classList.add("miss");
       }
-      if (hasShip) {
+      if (hasShip && showShips) {
         divEl.classList.add("ship");
       }
 
